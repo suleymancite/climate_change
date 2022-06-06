@@ -21,14 +21,20 @@ t_data <- bind_rows(last_dec, t_diff, next_jan) %>%
          month_number = as.numeric(month) - 1,
          this_year = year == 2022)
 
-t_data %>% 
-  filter(year == 2022)
+annotation <- t_data %>% 
+  slice_max(year) %>% 
+  slice_max(month_number)
 
 t_data %>% 
   ggplot(aes(x=month_number, y=t_diff, group=year, 
              color=year, size = this_year)) +
   geom_hline(yintercept = 0, color = "white") +
   geom_line() +
+  geom_text(data = annotation, 
+            aes(x=month_number, y=t_diff, label=year, color=year),
+            inherit.aes = FALSE,
+            hjust =  0, size = 5, nudge_x = 0.15, fontface = "bold") +
+
   scale_x_continuous(breaks = 1:12,
                      labels = month.abb,
                      sec.axis = dup_axis(name = NULL, labels = NULL)) +
