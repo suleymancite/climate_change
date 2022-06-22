@@ -15,6 +15,16 @@ t_data <- read_csv("data/GLB.Ts+dSST.csv", skip = 1, na = "***") %>%
          y = radius * cos(theta),
          z = year)
 
-t_data %>% 
-  ggplot(aes(x=x, y=y, color=z)) +
-  geom_path()
+#t_data %>% 
+ #   ggplot(aes(x=x, y=y, color=z)) +
+  #  geom_path()
+
+
+plot_ly(t_data,
+         x = ~x, y = ~y, z = ~z,
+         type = 'scatter3d',
+         mode = 'lines',
+         line = list(width = 4, color = ~t_diff,
+                     colorscale = list(c(0,'#BA52ED'), c(1, '#FCB040'))))
+         
+         
